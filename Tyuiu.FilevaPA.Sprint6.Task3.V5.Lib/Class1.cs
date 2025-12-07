@@ -14,56 +14,65 @@ public class Class1 : ISprint6Task3V5
         int rows = matrix.GetLength(0);
         int cols = matrix.GetLength(1);
 
-        // Проверка размерности (5x5 по условию)
+        // Проверка размерности
         if (rows != 5 || cols != 5)
         {
             throw new ArgumentException("Матрица должна быть размером 5x5");
         }
 
-        // Создаем копию матрицы, чтобы не изменять оригинал
-        int[,] sortedMatrix = (int[,])matrix.Clone();
+        // Создаем список для сортировки
+        var rowList = new List<int[]>();
 
-        // Сортируем строки матрицы по третьему столбцу (индекс 2) по возрастанию
-        SortMatrixByThirdColumnSimple(sortedMatrix);
-
-        return sortedMatrix;
-    }
-
-    private void SortMatrixByThirdColumnSimple(int[,] matrix)
-    {
-        int rows = matrix.GetLength(0);
-        int cols = matrix.GetLength(1);
-
-        // Улучшенная пузырьковая сортировка с явным контролем порядка
-        for (int i = 0; i < rows - 1; i++)
+        // Заполняем список строками матрицы
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < rows - i - 1; j++)
+            int[] row = new int[cols];
+            for (int j = 0; j < cols; j++)
             {
-                // Сравниваем значения в третьем столбце (индекс 2)
-                if (matrix[j, 2] > matrix[j + 1, 2])
-                {
-                    // Меняем строки местами
-                    for (int k = 0; k < cols; k++)
-                    {
-                        int temp = matrix[j, k];
-                        matrix[j, k] = matrix[j + 1, k];
-                        matrix[j + 1, k] = temp;
-                    }
-                }
+                row[j] = matrix[i, j];
+            }
+            rowList.Add(row);
+        }
+
+        // СОРТИРУЕМ ТОЛЬКО ПО ТРЕТЬЕМУ СТОЛБЦУ (индекс 2)
+        rowList.Sort((a, b) => a[2].CompareTo(b[2]));
+
+        // Преобразуем обратно в матрицу
+        int[,] result = new int[rows, cols];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                result[i, j] = rowList[i][j];
             }
         }
+
+        return result;
     }
 
-    // Метод для получения исходной матрицы из условия
+    // Метод для получения ИСХОДНОЙ матрицы из вашего скриншота
     public int[,] GetInitMatrix()
     {
         return new int[5, 5]
         {
-            { 30, -20, -20, -8, 9 },    // 3й столбец: -20 (минимальный)
-            { 32, 17, -14, -7, 33 },    // 3й столбец: -14 (второй)
-            { 19, -19, -13, 14, -20 },  // 3й столбец: -13 (третий)
-            { 11, 30, -1, 26, 6 },      // 3й столбец: -1 (четвертый)
-            { 30, -15, 7, -5, 15 }      // 3й столбец: 7 (максимальный)
+                { 30, -20, 7, -8, 9 },      // 3й столбец: 7
+                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
+                { 19, -19, 13, 14, -20 },   // 3й столбец: 13
+                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
+                { 30, -15, 20, -5, 15 }     // 3й столбец: 20
+        };
+    }
+
+    // Метод для получения матрицы из ошибки тестовой системы
+    public int[,] GetTestMatrix()
+    {
+        return new int[5, 5]
+        {
+                { 30, -20, -20, -8, 9 },    // 3й столбец: -20
+                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
+                { 19, -19, -13, 14, -20 },  // 3й столбец: -13
+                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
+                { 30, -15, 7, -5, 15 }      // 3й столбец: 7
         };
     }
 
