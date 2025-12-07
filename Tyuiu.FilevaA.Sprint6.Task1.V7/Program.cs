@@ -1,4 +1,5 @@
-namespace Tyuiu.FilevaA.Sprint6.Task1.V7
+namespace Tyuiu.FilevaA.Sprint6.Task1.V7;
+    using Tyuiu.FilevaPA.Sprint6.Task1.V7.Lib;
 {
     internal static class Program
     {
