@@ -1,4 +1,6 @@
 ﻿namespace Tyuiu.FilevaPA.Sprint6.Task6.V19.Lib;
+
+using System.Text;
 using tyuiu.cources.programming.interfaces.Sprint6;
 
 public class Class1 : ISprint6Task6V19
@@ -7,74 +9,32 @@ public class Class1 : ISprint6Task6V19
     {
         try
         {
-            // Проверяем существование файла
-            if (!File.Exists(path))
-            {
-                return "File not found: " + path;
-            }
+            StringBuilder result = new StringBuilder();
 
-            // Читаем все строки файла
+            // Читаем файл
             string[] lines = File.ReadAllLines(path);
-            List<string> resultWords = new List<string>();
 
             foreach (string line in lines)
             {
-                // Разделяем строку на слова (пробел, табуляция)
-                string[] words = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] words = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string word in words)
                 {
-                    string cleanWord = word.Trim();
-
-                    // Проверяем, содержит ли слово букву 'l' или 'L'
-                    if (cleanWord.Contains("l") || cleanWord.Contains("L"))
+                    // Ищем буквы: l, L, I (английская i заглавная)
+                    if (word.IndexOf('l') >= 0 || word.IndexOf('I') >= 0)
                     {
-                        resultWords.Add(cleanWord);
+                        if (result.Length > 0)
+                            result.Append(" ");
+                        result.Append(word);
                     }
                 }
             }
 
-            // Объединяем слова в одну строку через пробел
-            return string.Join(" ", resultWords);
+            return result.ToString();
         }
-        catch (Exception ex)
+        catch
         {
-            return "Error: " + ex.Message;
-        }
-    }
-
-    // Альтернативный метод с использованием StreamReader
-    public string LoadDataFromFile(string path)
-    {
-        try
-        {
-            if (!File.Exists(path))
-                return "File does not exist";
-
-            List<string> wordsWithL = new List<string>();
-
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] words = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (string word in words)
-                    {
-                        if (word.IndexOf('l') >= 0 || word.IndexOf('L') >= 0)
-                        {
-                            wordsWithL.Add(word);
-                        }
-                    }
-                }
-            }
-
-            return string.Join(" ", wordsWithL);
-        }
-        catch (Exception ex)
-        {
-            return "Error reading file: " + ex.Message;
+            return "";
         }
     }
 }
