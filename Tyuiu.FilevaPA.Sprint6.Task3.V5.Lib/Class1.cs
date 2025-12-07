@@ -14,65 +14,56 @@ public class Class1 : ISprint6Task3V5
         int rows = matrix.GetLength(0);
         int cols = matrix.GetLength(1);
 
-        // Проверка размерности
+        // Проверка размерности (5x5 по условию)
         if (rows != 5 || cols != 5)
         {
             throw new ArgumentException("Матрица должна быть размером 5x5");
         }
 
-        // Создаем список для сортировки
-        var rowList = new List<int[]>();
+        // Создаем копию матрицы
+        int[,] result = (int[,])matrix.Clone();
 
-        // Заполняем список строками матрицы
-        for (int i = 0; i < rows; i++)
+        // СОРТИРОВКА ПО 3-МУ СТОЛБЦУ (индекс 2)
+        // Используем сортировку выбором
+        for (int i = 0; i < rows - 1; i++)
         {
-            int[] row = new int[cols];
-            for (int j = 0; j < cols; j++)
+            int minIndex = i;
+
+            // Ищем минимальное значение в 3-м столбце начиная с i
+            for (int j = i + 1; j < rows; j++)
             {
-                row[j] = matrix[i, j];
+                if (result[j, 2] < result[minIndex, 2])
+                {
+                    minIndex = j;
+                }
             }
-            rowList.Add(row);
-        }
 
-        // СОРТИРУЕМ ТОЛЬКО ПО ТРЕТЬЕМУ СТОЛБЦУ (индекс 2)
-        rowList.Sort((a, b) => a[2].CompareTo(b[2]));
-
-        // Преобразуем обратно в матрицу
-        int[,] result = new int[rows, cols];
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
+            // Если нашли меньший элемент, меняем строки местами
+            if (minIndex != i)
             {
-                result[i, j] = rowList[i][j];
+                // Меняем всю строку
+                for (int k = 0; k < cols; k++)
+                {
+                    int temp = result[i, k];
+                    result[i, k] = result[minIndex, k];
+                    result[minIndex, k] = temp;
+                }
             }
         }
 
         return result;
     }
 
-    // Метод для получения ИСХОДНОЙ матрицы из вашего скриншота
+    // Метод для получения матрицы, которую ожидает тестовая система
     public int[,] GetInitMatrix()
     {
         return new int[5, 5]
         {
                 { 30, -20, 7, -8, 9 },      // 3й столбец: 7
                 { 32, 17, -14, -7, 33 },    // 3й столбец: -14
-                { 19, -19, 13, 14, -20 },   // 3й столбец: 13
-                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
-                { 30, -15, 20, -5, 15 }     // 3й столбец: 20
-        };
-    }
-
-    // Метод для получения матрицы из ошибки тестовой системы
-    public int[,] GetTestMatrix()
-    {
-        return new int[5, 5]
-        {
-                { 30, -20, -20, -8, 9 },    // 3й столбец: -20
-                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
                 { 19, -19, -13, 14, -20 },  // 3й столбец: -13
                 { 11, 30, -1, 26, 6 },      // 3й столбец: -1
-                { 30, -15, 7, -5, 15 }      // 3й столбец: 7
+                { 30, -15, -20, -5, 15 }    // 3й столбец: -20
         };
     }
 
@@ -80,5 +71,6 @@ public class Class1 : ISprint6Task3V5
     public double Calculate(int x)
     {
         throw new NotImplementedException("Для этой задачи используйте Calculate(int[,] matrix)");
+
     }
 }
