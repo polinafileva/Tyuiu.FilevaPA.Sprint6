@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Tyuiu.FilevaPA.Sprint6.Task1.V7
+namespace Tyuiu.FilevaPA.Sprint6.Task1.V7;
+    using Tyuiu.FilevaPA.Sprint6.Task1.V7.Lib;
 {
     internal static class Program
     {
