@@ -20,43 +20,48 @@ public class Class1 : ISprint6Task3V5
             throw new ArgumentException("Матрица должна быть размером 5x5");
         }
 
-        // Создаем копию матрицы, чтобы не изменять оригинал
+        // Создаем копию матрицы
         int[,] sortedMatrix = (int[,])matrix.Clone();
 
-        // Сортируем строки матрицы по третьему столбцу (индекс 2) по возрастанию
-        BubbleSortByThirdColumn(sortedMatrix);
+        // Используем сортировку вставками для стабильности
+        InsertionSortByThirdColumn(sortedMatrix);
 
         return sortedMatrix;
     }
 
-    private void BubbleSortByThirdColumn(int[,] matrix)
+    private void InsertionSortByThirdColumn(int[,] matrix)
     {
         int rows = matrix.GetLength(0);
-
-        // Используем пузырьковую сортировку
-        for (int i = 0; i < rows - 1; i++)
-        {
-            for (int j = 0; j < rows - i - 1; j++)
-            {
-                // Сравниваем значения в третьем столбце (индекс 2)
-                if (matrix[j, 2] > matrix[j + 1, 2])
-                {
-                    // Меняем строки местами
-                    SwapRows(matrix, j, j + 1);
-                }
-            }
-        }
-    }
-
-    private void SwapRows(int[,] matrix, int row1, int row2)
-    {
         int cols = matrix.GetLength(1);
 
-        for (int col = 0; col < cols; col++)
+        for (int i = 1; i < rows; i++)
         {
-            int temp = matrix[row1, col];
-            matrix[row1, col] = matrix[row2, col];
-            matrix[row2, col] = temp;
+            // Сохраняем текущую строку
+            int[] currentRow = new int[cols];
+            for (int c = 0; c < cols; c++)
+            {
+                currentRow[c] = matrix[i, c];
+            }
+
+            int currentValue = currentRow[2]; // значение в третьем столбце
+            int j = i - 1;
+
+            // Сдвигаем строки, у которых значение в 3м столбце больше текущего
+            while (j >= 0 && matrix[j, 2] > currentValue)
+            {
+                // Копируем строку j в строку j+1
+                for (int c = 0; c < cols; c++)
+                {
+                    matrix[j + 1, c] = matrix[j, c];
+                }
+                j--;
+            }
+
+            // Вставляем сохраненную строку на правильное место
+            for (int c = 0; c < cols; c++)
+            {
+                matrix[j + 1, c] = currentRow[c];
+            }
         }
     }
 
@@ -65,18 +70,17 @@ public class Class1 : ISprint6Task3V5
     {
         return new int[5, 5]
         {
-                { 30, -20, 7, -8, 9 },     // 3й столбец: 7 (будет 3-й после сортировки)
-                { 32, 17, -14, -7, 33 },   // 3й столбец: -14 (будет 1-й после сортировки)
-                { 19, -19, 13, 14, -20 },  // 3й столбец: 13 (будет 4-й после сортировки)
-                { 11, 30, -1, 26, 6 },     // 3й столбец: -1 (будет 2-й после сортировки)
-                { 30, -15, 20, -5, 15 }    // 3й столбец: 20 (будет 5-й после сортировки)
+                { 30, -20, -20, -8, 9 },    // 3й столбец: -20
+                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
+                { 19, -19, -13, 14, -20 },  // 3й столбец: -13
+                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
+                { 30, -15, 7, -5, 15 }      // 3й столбец: 7
         };
     }
 
-    // Для обратной совместимости с интерфейсом
+    // Для обратной совместимости
     public double Calculate(int x)
     {
         throw new NotImplementedException("Для этой задачи используйте Calculate(int[,] matrix)");
     }
 }
-
