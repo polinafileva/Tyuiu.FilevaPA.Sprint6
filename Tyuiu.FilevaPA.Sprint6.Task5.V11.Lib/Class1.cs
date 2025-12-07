@@ -7,83 +7,51 @@ public class Class1 : ISprint6Task5V11
 {
     public double[] LoadFromDataFile(string path)
     {
-        List<double> result = new List<double>();
-
         try
         {
-            // Читаем все строки из файла
+            // Проверяем существование файла
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Файл не найден по пути: {path}");
+            }
+
+            // Читаем все строки файла
             string[] lines = File.ReadAllLines(path);
+            List<double> result = new List<double>();
 
             foreach (string line in lines)
             {
                 // Пропускаем пустые строки
                 if (string.IsNullOrWhiteSpace(line))
-                {
                     continue;
-                }
 
-                // Пробуем преобразовать строку в число
-                if (double.TryParse(line.Trim().Replace(',', '.'),
-                                   System.Globalization.NumberStyles.Any,
-                                   System.Globalization.CultureInfo.InvariantCulture,
-                                   out double number))
+                // Заменяем запятую на точку для парсинга
+                string normalizedLine = line.Trim().Replace(',', '.');
+
+                // Пробуем распарсить число
+                if (double.TryParse(normalizedLine,
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out double number))
                 {
                     // Проверяем, кратно ли число 5
-                    if (IsMultipleOfFive(number))
+                    // Для дробных чисел используем проверку с погрешностью
+                    double remainder = Math.Abs(number % 5);
+
+                    // Если остаток близок к 0 или к 5 (для отрицательных чисел)
+                    if (remainder < 0.00001 || Math.Abs(remainder - 5) < 0.00001)
                     {
                         result.Add(number);
                     }
                 }
             }
+
+            return result.ToArray();
         }
         catch (Exception ex)
         {
-            // Генерируем исключение с информацией об ошибке
-            throw new Exception("Ошибка чтения файла: " + ex.Message);
+            throw new Exception($"Ошибка при обработке файла: {ex.Message}");
         }
-
-        return result;
-    }
-
-    // Вспомогательный метод для проверки кратности 5
-    private bool IsMultipleOfFive(double number)
-    {
-        // Для вещественных чисел проверяем с небольшой погрешностью
-        double remainder = Math.Abs(number % 5);
-        return remainder < 0.0001 || Math.Abs(remainder - 5) < 0.0001;
-    }
-
-    // Метод для получения всех чисел (не только кратных 5)
-    public List<double> GetAllNumbers(string path)
-    {
-        List<double> result = new List<double>();
-
-        try
-        {
-            string[] lines = File.ReadAllLines(path);
-
-            foreach (string line in lines)
-            {
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    continue;
-                }
-
-                if (double.TryParse(line.Trim().Replace(',', '.'),
-                                   System.Globalization.NumberStyles.Any,
-                                   System.Globalization.CultureInfo.InvariantCulture,
-                                   out double number))
-                {
-                    result.Add(number);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Ошибка чтения файла: " + ex.Message);
-        }
-
-        return result;
     }
 }
 
