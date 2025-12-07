@@ -20,12 +20,15 @@ public class Class1 : ISprint6Task6V19
 
                 foreach (string word in words)
                 {
-                    // Ищем буквы: l, L, I (английская i заглавная)
-                    if (word.IndexOf('l') >= 0 || word.IndexOf('I') >= 0)
+                    string cleanWord = word.Trim();
+
+                    // Ищем ТОЛЬКО строчную букву 'l'
+                    // НЕ ищем заглавную 'L' или 'I'
+                    if (cleanWord.Contains("l"))
                     {
                         if (result.Length > 0)
                             result.Append(" ");
-                        result.Append(word);
+                        result.Append(cleanWord);
                     }
                 }
             }
