@@ -24,44 +24,39 @@ public class Class1 : ISprint6Task3V5
         int[,] sortedMatrix = (int[,])matrix.Clone();
 
         // Сортируем строки матрицы по третьему столбцу (индекс 2) по возрастанию
-        SortMatrixByThirdColumn(sortedMatrix);
+        BubbleSortByThirdColumn(sortedMatrix);
 
         return sortedMatrix;
     }
 
-    private void SortMatrixByThirdColumn(int[,] matrix)
+    private void BubbleSortByThirdColumn(int[,] matrix)
     {
         int rows = matrix.GetLength(0);
 
-        // Используем сортировку вставками для стабильности
-        for (int i = 1; i < rows; i++)
+        // Используем пузырьковую сортировку
+        for (int i = 0; i < rows - 1; i++)
         {
-            int[] currentRow = new int[5];
-            int currentValue = matrix[i, 2];
-
-            // Сохраняем текущую строку
-            for (int col = 0; col < 5; col++)
+            for (int j = 0; j < rows - i - 1; j++)
             {
-                currentRow[col] = matrix[i, col];
-            }
-
-            int j = i - 1;
-
-            // Сдвигаем элементы, которые больше currentValue
-            while (j >= 0 && matrix[j, 2] > currentValue)
-            {
-                for (int col = 0; col < 5; col++)
+                // Сравниваем значения в третьем столбце (индекс 2)
+                if (matrix[j, 2] > matrix[j + 1, 2])
                 {
-                    matrix[j + 1, col] = matrix[j, col];
+                    // Меняем строки местами
+                    SwapRows(matrix, j, j + 1);
                 }
-                j--;
             }
+        }
+    }
 
-            // Вставляем текущую строку на правильное место
-            for (int col = 0; col < 5; col++)
-            {
-                matrix[j + 1, col] = currentRow[col];
-            }
+    private void SwapRows(int[,] matrix, int row1, int row2)
+    {
+        int cols = matrix.GetLength(1);
+
+        for (int col = 0; col < cols; col++)
+        {
+            int temp = matrix[row1, col];
+            matrix[row1, col] = matrix[row2, col];
+            matrix[row2, col] = temp;
         }
     }
 
@@ -70,11 +65,11 @@ public class Class1 : ISprint6Task3V5
     {
         return new int[5, 5]
         {
-                { 30, -20, -20, -8, 9 },    // 3й столбец: -20
-                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
-                { 19, -19, -13, 14, -20 },  // 3й столбец: -13
-                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
-                { 30, -15, 7, -5, 15 }      // 3й столбец: 7
+                { 30, -20, -20, -8, 9 },    // 3й столбец: -20 (должен быть 1-м)
+                { 32, 17, -14, -7, 33 },    // 3й столбец: -14 (должен быть 2-м)
+                { 19, -19, -13, 14, -20 },  // 3й столбец: -13 (должен быть 3-м)
+                { 11, 30, -1, 26, 6 },      // 3й столбец: -1 (должен быть 4-м)
+                { 30, -15, 7, -5, 15 }      // 3й столбец: 7 (должен быть 5-м)
         };
     }
 
