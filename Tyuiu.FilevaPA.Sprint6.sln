@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyuiu.FilevaPA.Sprint6.Task
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{3BC087E2-FA5C-48B7-ACD5-6C6D9AEC1D1B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 1", "Task 1", "{E2FFD67C-29DB-420F-937B-2D0289CDE68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyuiu.FilevaPA.Sprint6.Task1.V7.Lib", "Tyuiu.FilevaPA.Sprint6.Task1.V7.Lib\Tyuiu.FilevaPA.Sprint6.Task1.V7.Lib.csproj", "{F61FF858-FDF1-45E7-A091-5445FFB79E68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{3BC087E2-FA5C-48B7-ACD5-6C6D9AEC1D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BC087E2-FA5C-48B7-ACD5-6C6D9AEC1D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC087E2-FA5C-48B7-ACD5-6C6D9AEC1D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F61FF858-FDF1-45E7-A091-5445FFB79E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61FF858-FDF1-45E7-A091-5445FFB79E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61FF858-FDF1-45E7-A091-5445FFB79E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61FF858-FDF1-45E7-A091-5445FFB79E68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +45,7 @@ Global
 		{BF3D75E7-24B3-4DBA-983F-94BC519F4DE4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{56F10DF2-77A3-4A40-BFCF-2527A9BC8CD9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{3BC087E2-FA5C-48B7-ACD5-6C6D9AEC1D1B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F61FF858-FDF1-45E7-A091-5445FFB79E68} = {E2FFD67C-29DB-420F-937B-2D0289CDE68C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2E00ED6-9688-4D73-A718-C3A30A8125E6}
