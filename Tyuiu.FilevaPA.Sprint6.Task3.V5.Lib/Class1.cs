@@ -1,7 +1,7 @@
 ﻿namespace Tyuiu.FilevaPA.Sprint6.Task3.V5.Lib;
      using tyuiu.cources.programming.interfaces.Sprint6;
 
-    public class Class1 : ISprint6Task3V5
+public class Class1 : ISprint6Task3V5
 {
     public int[,] Calculate(int[,] matrix)
     {
@@ -23,7 +23,7 @@
         // Создаем копию матрицы, чтобы не изменять оригинал
         int[,] sortedMatrix = (int[,])matrix.Clone();
 
-        // Сортируем строки матрицы по третьему столбцу (индекс 2)
+        // Сортируем строки матрицы по третьему столбцу (индекс 2) по возрастанию
         SortMatrixByThirdColumn(sortedMatrix);
 
         return sortedMatrix;
@@ -32,38 +32,36 @@
     private void SortMatrixByThirdColumn(int[,] matrix)
     {
         int rows = matrix.GetLength(0);
-        int cols = matrix.GetLength(1);
 
-        // Используем сортировку выбором (selection sort) для строк матрицы
-        for (int i = 0; i < rows - 1; i++)
+        // Используем сортировку вставками для стабильности
+        for (int i = 1; i < rows; i++)
         {
-            // Находим минимальный элемент в третьем столбце начиная с позиции i
-            int minIndex = i;
-            for (int j = i + 1; j < rows; j++)
+            int[] currentRow = new int[5];
+            int currentValue = matrix[i, 2];
+
+            // Сохраняем текущую строку
+            for (int col = 0; col < 5; col++)
             {
-                if (matrix[j, 2] < matrix[minIndex, 2])
+                currentRow[col] = matrix[i, col];
+            }
+
+            int j = i - 1;
+
+            // Сдвигаем элементы, которые больше currentValue
+            while (j >= 0 && matrix[j, 2] > currentValue)
+            {
+                for (int col = 0; col < 5; col++)
                 {
-                    minIndex = j;
+                    matrix[j + 1, col] = matrix[j, col];
                 }
+                j--;
             }
 
-            // Если нашли элемент меньше текущего, меняем строки местами
-            if (minIndex != i)
+            // Вставляем текущую строку на правильное место
+            for (int col = 0; col < 5; col++)
             {
-                SwapRows(matrix, i, minIndex);
+                matrix[j + 1, col] = currentRow[col];
             }
-        }
-    }
-
-    private void SwapRows(int[,] matrix, int row1, int row2)
-    {
-        int cols = matrix.GetLength(1);
-
-        for (int col = 0; col < cols; col++)
-        {
-            int temp = matrix[row1, col];
-            matrix[row1, col] = matrix[row2, col];
-            matrix[row2, col] = temp;
         }
     }
 
@@ -72,19 +70,18 @@
     {
         return new int[5, 5]
         {
-                { 30, -20, 7, 8, 9 },
-                { 32, 17, -14, 7, 33 },
-                { 19, -19, -13, 14, -20 },
-                { 11, 30, -1, 26, 6 },
-                { 30, -15, -20, 5, 15 }
+                { 30, -20, -20, -8, 9 },    // 3й столбец: -20
+                { 32, 17, -14, -7, 33 },    // 3й столбец: -14
+                { 19, -19, -13, 14, -20 },  // 3й столбец: -13
+                { 11, 30, -1, 26, 6 },      // 3й столбец: -1
+                { 30, -15, 7, -5, 15 }      // 3й столбец: 7
         };
     }
 
-    // Дополнительный метод для обратной совместимости, если нужен
+    // Для обратной совместимости
     public double Calculate(int x)
     {
         throw new NotImplementedException("Для этой задачи используйте Calculate(int[,] matrix)");
     }
 }
-
 
